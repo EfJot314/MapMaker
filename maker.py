@@ -4,7 +4,7 @@ from pygame import *
 from colors import *
 
 class Maker:
-    def __init__(self, width, height):
+    def __init__(self, width: int, height: int):
         #window size
         self.width = width
         self.height = height
