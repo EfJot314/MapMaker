@@ -3,6 +3,7 @@ from pygame import *
 
 from colors import *
 from nodes import Node
+from edges import Edge
 
 class Maker:
     def __init__(self, width: int, height: int):
@@ -29,6 +30,12 @@ class Maker:
         self.nodes = []
         self.clicked_idx = None
 
+        #edges
+        self.edges = []
+        self.create_new_edge = False
+        self.node1 = None
+        self.node2 = None
+
     def search_for_clicked_node(self):
         for i in range(len(self.nodes)):
             node = self.nodes[i]
@@ -38,7 +45,8 @@ class Maker:
 
     def draw_all(self):
         self.window.fill(white)
-        
+        for edge in self.edges:
+            edge.draw(self.window)
         for node in self.nodes:
             node.draw(self.window)
 
@@ -69,10 +77,26 @@ class Maker:
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_n:
                         self.nodes.append(Node(self.mouse_x, self.mouse_y))
+                    elif event.key == pygame.K_m:
+                        self.create_new_edge = True
                 #mouse down
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     self.mouse_click = True
                     self.clicked_idx = self.search_for_clicked_node()
+                    if self.clicked_idx is not None:
+                        #create new edge
+                        if self.create_new_edge:
+                            if self.node1 is None:
+                                self.node1 = self.nodes[self.clicked_idx]
+                            else:
+                                self.node2 = self.nodes[self.clicked_idx]
+                                if self.node1 is not self.node2:
+                                    self.edges.append(Edge(self.node1, self.node2))
+                                self.create_new_edge = False
+                                self.node1 = None
+                                self.node2 = None
+                    else:
+                        self.create_new_edge = False
                 #mouse up
                 elif event.type == pygame.MOUSEBUTTONUP:
                     self.mouse_click = False

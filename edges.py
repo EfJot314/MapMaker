@@ -11,5 +11,5 @@ class Edge:
         self.color = black
     
     def draw(self, window: pygame.Surface):
-        pygame.draw.line(window, self.color, self.node1.get_position(), self.node2.get_position())
+        pygame.draw.line(window, self.color, self.node1.get_center_position(), self.node2.get_center_position(), 3)
     
