@@ -29,6 +29,11 @@ class Maker:
         self.mouse_x, self.mouse_y = pygame.mouse.get_pos()
         self.mouse_click = False
 
+        #moving variables
+        self.move_velocity = 5
+        self.move_x = 0
+        self.move_y = 0
+
         #nodes
         self.nodes = []
         self.clicked_idx = None
@@ -45,10 +50,13 @@ class Maker:
         root.withdraw()
 
     def open_file(self):
+        file_path = filedialog.askopenfilename()
+        if type(file_path) != str:
+            return
+        
         self.nodes = []
         self.edges = []
-
-        file_path = filedialog.askopenfilename()
+        
         with open(file_path, "r") as file:
             n_of_nodes = int(file.readline())
             for _ in range(n_of_nodes):
@@ -70,6 +78,8 @@ class Maker:
 
     def save_to_file(self):
         file_path = filedialog.asksaveasfilename()
+        if type(file_path) != str:
+            return
         
         str_to_save = f"{len(self.nodes)}\n"
         for node in self.nodes:
@@ -112,7 +122,12 @@ class Maker:
             #mouse position
             self.mouse_x, self.mouse_y = pygame.mouse.get_pos()
 
-            #moving nodes
+            #moving map by WSAD
+            for node in self.nodes:
+                node.x += self.move_x
+                node.y += self.move_y
+
+            #moving nodes by mouse
             if self.mouse_click and self.clicked_idx is not None:
                 node = self.nodes[self.clicked_idx]
                 node.x = self.mouse_x - node.width/2
@@ -146,10 +161,30 @@ class Maker:
                         self.clicked_idx = self.search_for_clicked_node()
                         if self.clicked_idx is not None:
                             self.remove_node(self.nodes[self.clicked_idx])
-                    elif event.key == pygame.K_o:
+                    elif event.key == pygame.K_z:
                         self.open_file()
-                    elif event.key == pygame.K_s:
+                    elif event.key == pygame.K_x:
                         self.save_to_file()
+                    #moving
+                    elif event.key == pygame.K_w:
+                        self.move_y = 1 * self.move_velocity
+                    elif event.key == pygame.K_s:
+                        self.move_y = -1 * self.move_velocity
+                    elif event.key == pygame.K_a:
+                        self.move_x = 1 * self.move_velocity
+                    elif event.key == pygame.K_d:
+                        self.move_x = -1 * self.move_velocity
+
+                elif event.type == pygame.KEYUP:
+                    #moving
+                    if event.key == pygame.K_w:
+                        self.move_y = 0
+                    elif event.key == pygame.K_s:
+                        self.move_y = 0
+                    elif event.key == pygame.K_a:
+                        self.move_x = 0
+                    elif event.key == pygame.K_d:
+                        self.move_x = 0
                     
                 #mouse down
                 elif event.type == pygame.MOUSEBUTTONDOWN:
