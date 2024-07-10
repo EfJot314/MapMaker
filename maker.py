@@ -43,6 +43,16 @@ class Maker:
             if node.x < self.mouse_x and node.y < self.mouse_y and node.x+node.width > self.mouse_x and node.y+node.height > self.mouse_y:
                 return i
         return None
+    
+    def remove_node(self, node: Node):
+        to_remove = []
+        for edge in self.edges:
+            if edge.contains_node(node):
+                to_remove.append(edge)
+        for edge in to_remove:
+            self.edges.remove(edge)
+        self.nodes.remove(node)
+
 
     def draw_all(self):
         self.window.fill(white)
@@ -89,6 +99,10 @@ class Maker:
                         self.nodes.append(Node(self.mouse_x, self.mouse_y))
                     elif event.key == pygame.K_m:
                         self.create_new_edge = True
+                    elif event.key == pygame.K_x:
+                        self.clicked_idx = self.search_for_clicked_node()
+                        if self.clicked_idx is not None:
+                            self.remove_node(self.nodes[self.clicked_idx])
                     
                 #mouse down
                 elif event.type == pygame.MOUSEBUTTONDOWN:
