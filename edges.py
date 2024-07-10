@@ -8,7 +8,7 @@ class Edge:
     def __init__(self, node1: Node, node2: Node):
         self.node1 = node1
         self.node2 = node2
-        self.color = black
+        self.color = green
     
     def contains_node(self, node: Node):
         return self.node1 == node or self.node2 == node

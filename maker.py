@@ -14,6 +14,9 @@ class Maker:
         self.width = width
         self.height = height
 
+        #dark mode
+        self.dark_mode = False
+
         #fps and clock
         self.FPS = 60
         self.clock = pygame.time.Clock()
@@ -108,7 +111,10 @@ class Maker:
         self.nodes.remove(node)
 
     def draw_all(self):
-        self.window.fill(white)
+        if self.dark_mode:
+            self.window.fill(black)
+        else:
+            self.window.fill(white)
         for edge in self.edges:
             edge.draw(self.window)
         for node in self.nodes:
@@ -165,6 +171,11 @@ class Maker:
                         self.open_file()
                     elif event.key == pygame.K_v:
                         self.save_to_file()
+                    elif event.key == pygame.K_1:
+                        self.dark_mode = False
+                    elif event.key == pygame.K_2:
+                        self.dark_mode = True
+
                     #moving
                     elif event.key == pygame.K_w:
                         self.move_y = 1 * self.move_velocity
