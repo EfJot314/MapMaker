@@ -26,7 +26,7 @@ After creation, nodes have default name (```Unnamed```), if you would like to ch
 ### Creating new conections between map nodes
 To create new connection, you have to press ```m``` key. Then you have to click chosen nodes using left mouse button. 
 ### Removing map nodes
-To remove node, you have to press ```x``` key with mouse over chosen map node.
+To remove node, you have to press ```x``` key with mouse over chosen map node. All connections to removed map node will also be removed.
 ### Moving map (map nodes and connections)
 To move map, you can use ```w```, ```s```, ```a``` and ```d``` keys.
 ### Saving map
