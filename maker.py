@@ -45,28 +45,41 @@ class Maker:
         root.withdraw()
 
     def open_file(self):
+        self.nodes = []
+        self.edges = []
+
         file_path = filedialog.askopenfilename()
-        _, file_extension = os.path.splitext(file_path)
-        if file_extension != ".txt":
-            return
-        #TODO
+        with open(file_path, "r") as file:
+            n_of_nodes = int(file.readline())
+            for _ in range(n_of_nodes):
+                node_data = file.readline().split(";")
+                name = node_data[0]
+                x = int(node_data[1])
+                y = int(node_data[2])
+                w = int(node_data[3])
+                h = int(node_data[4])
+                self.nodes.append(Node(x, y, name, w, h))
+            n_of_edges = int(file.readline())
+            for _ in range(n_of_edges):
+                edge_data = file.readline().split(";")
+                idx1 = int(edge_data[0])
+                idx2 = int(edge_data[1])
+                node1 = self.nodes[idx1]
+                node2 = self.nodes[idx2]
+                self.edges.append(Edge(node1, node2))
 
     def save_to_file(self):
         file_path = filedialog.asksaveasfilename()
-        _, file_extension = os.path.splitext(file_path)
-        if file_extension != ".txt":
-            return
         
         str_to_save = f"{len(self.nodes)}\n"
         for node in self.nodes:
-            str_to_save += f"{node.name}\t{node.x}\t{node.y}\t{node.width}\t{node.height}\n"
+            str_to_save += f"{node.name};{int(node.x)};{int(node.y)};{int(node.width)};{int(node.height)}\n"
         str_to_save += f"{len(self.edges)}\n"
         for edge in self.edges:
-            str_to_save += f"{self.nodes.index(edge.node1)}\t{self.nodes.index(edge.node2)}\n"
+            str_to_save += f"{self.nodes.index(edge.node1)};{self.nodes.index(edge.node2)}\n"
         
         with open(file_path, "w") as file:
             file.write(str_to_save)
-
 
     def search_for_clicked_node(self):
         for i in range(len(self.nodes)):
@@ -83,7 +96,6 @@ class Maker:
         for edge in to_remove:
             self.edges.remove(edge)
         self.nodes.remove(node)
-
 
     def draw_all(self):
         self.window.fill(white)
