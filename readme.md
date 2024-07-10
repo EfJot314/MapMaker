@@ -12,6 +12,10 @@ Before first usage it is required to install application requirements mentioned 
 ```
 pip3 install -r requirements.txt
 ```
+After succesful installation, you can run application:
+```
+python main.py
+```
 ## How to use Map Maker
 ### Creating new map nodes
 To create new node, you have to press ```n``` key. New node will be created at the mouse position. 
