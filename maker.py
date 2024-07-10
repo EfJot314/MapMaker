@@ -29,6 +29,7 @@ class Maker:
         #nodes
         self.nodes = []
         self.clicked_idx = None
+        self.name_input = False
 
         #edges
         self.edges = []
@@ -75,32 +76,49 @@ class Maker:
                     sys.exit(0)
                 #keys
                 elif event.type == pygame.KEYDOWN:
+                    if self.name_input:
+                        #enter
+                        if event.key == pygame.K_RETURN:    
+                            self.name_input = False
+                        else:
+                            self.nodes[self.clicked_idx].name += pygame.key.name(event.key)
+                        continue
                     if event.key == pygame.K_n:
                         self.nodes.append(Node(self.mouse_x, self.mouse_y))
                     elif event.key == pygame.K_m:
                         self.create_new_edge = True
+                    
                 #mouse down
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    self.mouse_click = True
                     self.clicked_idx = self.search_for_clicked_node()
-                    if self.clicked_idx is not None:
-                        #create new edge
-                        if self.create_new_edge:
-                            if self.node1 is None:
-                                self.node1 = self.nodes[self.clicked_idx]
-                            else:
-                                self.node2 = self.nodes[self.clicked_idx]
-                                if self.node1 is not self.node2:
-                                    self.edges.append(Edge(self.node1, self.node2))
-                                self.create_new_edge = False
-                                self.node1 = None
-                                self.node2 = None
-                    else:
-                        self.create_new_edge = False
+                    #left
+                    if event.button == 1:
+                        self.mouse_click = True
+                        if self.clicked_idx is not None:
+                            #create new edge
+                            if self.create_new_edge:
+                                if self.node1 is None:
+                                    self.node1 = self.nodes[self.clicked_idx]
+                                else:
+                                    self.node2 = self.nodes[self.clicked_idx]
+                                    if self.node1 is not self.node2:
+                                        self.edges.append(Edge(self.node1, self.node2))
+                                    self.create_new_edge = False
+                                    self.node1 = None
+                                    self.node2 = None
+                        else:
+                            self.create_new_edge = False
+                    #right
+                    elif event.button == 3:
+                        if self.clicked_idx is not None and not self.name_input:
+                            self.nodes[self.clicked_idx].name = ""
+                            self.name_input = True
+
                 #mouse up
                 elif event.type == pygame.MOUSEBUTTONUP:
                     self.mouse_click = False
-                    self.clicked_idx = None
+                    if not self.name_input:
+                        self.clicked_idx = None
 
 
 
