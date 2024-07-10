@@ -22,7 +22,7 @@ class Maker:
         pygame.init()
 
         #create window
-        self.window = pygame.display.set_mode((800, 700))
+        self.window = pygame.display.set_mode((800, 700), RESIZABLE)
         pygame.display.set_caption("Map maker")
 
         #mouse variables
