@@ -1,6 +1,9 @@
 import pygame, sys
 from pygame import *
 
+import tkinter as tk
+from tkinter import filedialog
+
 from colors import *
 from nodes import Node
 from edges import Edge
@@ -36,6 +39,18 @@ class Maker:
         self.create_new_edge = False
         self.node1 = None
         self.node2 = None
+
+        #for tkinter
+        root = tk.Tk()
+        root.withdraw()
+
+    def open_file(self):
+        file_path = filedialog.askopenfilename()
+        # TODO
+
+    def save_to_file(self):
+        file_path = filedialog.asksaveasfilename()
+
 
     def search_for_clicked_node(self):
         for i in range(len(self.nodes)):
@@ -103,6 +118,10 @@ class Maker:
                         self.clicked_idx = self.search_for_clicked_node()
                         if self.clicked_idx is not None:
                             self.remove_node(self.nodes[self.clicked_idx])
+                    elif event.key == pygame.K_o:
+                        self.open_file()
+                    elif event.key == pygame.K_s:
+                        self.save_to_file()
                     
                 #mouse down
                 elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -141,4 +160,5 @@ class Maker:
             #display refresh
             pygame.display.update()
             self.clock.tick(self.FPS)
+
 
