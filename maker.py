@@ -80,6 +80,8 @@ class Maker:
                         #enter
                         if event.key == pygame.K_RETURN:    
                             self.name_input = False
+                        elif event.key == pygame.K_BACKSPACE:
+                            self.nodes[self.clicked_idx].name = self.nodes[self.clicked_idx].name[:-1:]
                         else:
                             self.nodes[self.clicked_idx].name += pygame.key.name(event.key)
                         continue
