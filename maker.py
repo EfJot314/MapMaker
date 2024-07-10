@@ -219,6 +219,7 @@ class Maker:
                         if self.clicked_idx is not None:
                             #create new edge
                             if self.create_new_edge:
+                                self.mouse_click = False
                                 if self.node1 is None:
                                     self.node1 = self.nodes[self.clicked_idx]
                                 else:
