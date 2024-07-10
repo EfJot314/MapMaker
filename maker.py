@@ -1,4 +1,4 @@
-import pygame, sys
+import pygame, sys, os
 from pygame import *
 
 import tkinter as tk
@@ -46,10 +46,26 @@ class Maker:
 
     def open_file(self):
         file_path = filedialog.askopenfilename()
-        # TODO
+        _, file_extension = os.path.splitext(file_path)
+        if file_extension != ".txt":
+            return
+        #TODO
 
     def save_to_file(self):
         file_path = filedialog.asksaveasfilename()
+        _, file_extension = os.path.splitext(file_path)
+        if file_extension != ".txt":
+            return
+        
+        str_to_save = f"{len(self.nodes)}\n"
+        for node in self.nodes:
+            str_to_save += f"{node.name}\t{node.x}\t{node.y}\t{node.width}\t{node.height}\n"
+        str_to_save += f"{len(self.edges)}\n"
+        for edge in self.edges:
+            str_to_save += f"{self.nodes.index(edge.node1)}\t{self.nodes.index(edge.node2)}\n"
+        
+        with open(file_path, "w") as file:
+            file.write(str_to_save)
 
 
     def search_for_clicked_node(self):
@@ -136,8 +152,15 @@ class Maker:
                                     self.node1 = self.nodes[self.clicked_idx]
                                 else:
                                     self.node2 = self.nodes[self.clicked_idx]
-                                    if self.node1 is not self.node2:
+                                    already_exists = False
+                                    for edge in self.edges:
+                                        if edge.contains_node(self.node1) and edge.contains_node(self.node2):
+                                            already_exists = True
+                                            break
+
+                                    if self.node1 is not self.node2 and not already_exists:
                                         self.edges.append(Edge(self.node1, self.node2))
+
                                     self.create_new_edge = False
                                     self.node1 = None
                                     self.node2 = None
