@@ -11,6 +11,9 @@ class Node:
         self.height = height
         self.name = name
         self.color = gray
+
+    def get_position(self):
+        return self.x, self.y
     
     def draw(self, window: pygame.Surface):
         pygame.draw.rect(window, self.color, (self.x, self.y, self.width, self.height))
