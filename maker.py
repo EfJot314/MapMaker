@@ -40,7 +40,10 @@ class Maker:
         #nodes
         self.nodes = []
         self.clicked_idx = None
+
+        #text input
         self.name_input = False
+        self.shift = False
 
         #edges
         self.edges = []
@@ -156,8 +159,15 @@ class Maker:
                             self.name_input = False
                         elif event.key == pygame.K_BACKSPACE:
                             self.nodes[self.clicked_idx].name = self.nodes[self.clicked_idx].name[:-1:]
+                        elif event.key == pygame.K_LSHIFT:
+                            self.shift = True
+                        elif event.key == pygame.K_SPACE:
+                            self.nodes[self.clicked_idx].name += " "
                         else:
-                            self.nodes[self.clicked_idx].name += pygame.key.name(event.key)
+                            to_append = pygame.key.name(event.key)
+                            if self.shift:
+                                to_append = to_append.upper()
+                            self.nodes[self.clicked_idx].name += to_append
                         continue
                     if event.key == pygame.K_n:
                         self.nodes.append(Node(self.mouse_x, self.mouse_y))
@@ -196,6 +206,9 @@ class Maker:
                         self.move_x = 0
                     elif event.key == pygame.K_d:
                         self.move_x = 0
+                    #typing
+                    elif event.key == pygame.K_LSHIFT:
+                            self.shift = False
                     
                 #mouse down
                 elif event.type == pygame.MOUSEBUTTONDOWN:
