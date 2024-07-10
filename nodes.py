@@ -11,10 +11,15 @@ class Node:
         self.height = height
         self.name = name
         self.color = gray
+        self.font = pygame.font.Font(pygame.font.get_default_font(), 15)
 
     def get_center_position(self):
         return self.x+self.width/2, self.y+self.height/2
     
     def draw(self, window: pygame.Surface):
         pygame.draw.rect(window, self.color, (self.x, self.y, self.width, self.height))
+        label = self.font.render(self.name, 1, black)
+        label_rect = label.get_rect()
+        label_rect.centerx, label_rect.centery = self.get_center_position()
+        window.blit(label, label_rect)
     
