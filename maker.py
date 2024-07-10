@@ -161,9 +161,9 @@ class Maker:
                         self.clicked_idx = self.search_for_clicked_node()
                         if self.clicked_idx is not None:
                             self.remove_node(self.nodes[self.clicked_idx])
-                    elif event.key == pygame.K_z:
+                    elif event.key == pygame.K_c:
                         self.open_file()
-                    elif event.key == pygame.K_x:
+                    elif event.key == pygame.K_v:
                         self.save_to_file()
                     #moving
                     elif event.key == pygame.K_w:
