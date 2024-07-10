@@ -33,3 +33,7 @@ To move map, you can use ```w```, ```s```, ```a``` and ```d``` keys.
 If you would like to save created map, then you have to press ```v``` key and choose destination using file dialog window. The file extension can be any.
 ### Loading map
 If you would like to load saved map to the application, then you have to press ```c``` key and choose saved map using file dialog window. Note, that any unsaved changes in currently using map will be lost.
+###  Application appearance
+The application provides two appearance modes:
+1. ```Bright mode``` - white background (press ```1``` key)
+2. ```Dark mode``` - black background (press ```2``` key)
